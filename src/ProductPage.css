@@ -1,0 +1,186 @@
+.shoes-page {
+  min-height: 100vh;
+
+  padding: 40px;
+
+  background: linear-gradient(135deg, #0f172a, #111827, #1e293b);
+
+  color: white;
+}
+
+.shoes-header {
+  text-align: center;
+
+  margin-bottom: 40px;
+}
+
+.shoes-header h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 45px;
+
+  margin-bottom: 10px;
+
+  background: linear-gradient(90deg, #60a5fa, #818cf8, #34d399);
+
+  -webkit-background-clip: text;
+
+  -webkit-text-fill-color: #818cf8;
+}
+
+.shoes-header p {
+  color: #94a3b8;
+
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.shoes-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+
+  gap: 25px;
+}
+
+/* CARD */
+
+.s-card {
+  background: rgba(255, 255, 255, 0.05);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  transition: 0.3s;
+
+  backdrop-filter: blur(10px);
+}
+
+.s-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow: 0 10px 40px rgba(96, 165, 250, 0.3);
+}
+
+/* IMAGE */
+
+.s-card__img {
+  height: 250px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  background: rgba(15, 23, 42, 0.8);
+
+  padding: 20px;
+}
+
+.s-card__img img {
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: contain;
+}
+
+/* BODY */
+
+.s-card__body {
+  padding: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+}
+
+.s-card__body h3 {
+  font-size: 18px;
+
+  color: white;
+
+  height: 45px;
+
+  overflow: hidden;
+}
+
+.s-desc {
+  color: #94a3b8;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+
+  height: 65px;
+
+  overflow: hidden;
+}
+
+.s-info {
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+}
+
+.s-price {
+  color: #38bdf8;
+
+  font-size: 22px;
+
+  font-weight: bold;
+}
+
+.s-rate {
+  color: #fbbf24;
+
+  font-weight: bold;
+}
+
+/* BUTTON */
+
+.s-btn {
+  padding: 12px;
+
+  border: none;
+
+  border-radius: 999px;
+
+  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+
+  color: white;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.s-btn:hover {
+  transform: scale(1.04);
+
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+}
+
+.added {
+  background: linear-gradient(135deg, #10b981, #059669);
+}
+
+.loading {
+  text-align: center;
+
+  grid-column: 1/-1;
+}
