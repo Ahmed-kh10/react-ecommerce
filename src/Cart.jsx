@@ -67,7 +67,11 @@ function Cart({ cart, setCart }) {
       </div>
 
       <div className="cart-center">
-        {cart.length === 0 && <button className="shop-btn">Shop Now 🛒</button>}
+        <a href="/categories">
+          {cart.length === 0 && (
+            <button className="shop-btn">Shop Now 🛒</button>
+          )}
+        </a>
         {cart.length === 0 ? (
           <h2>Your cart is empty, Start shopping</h2>
         ) : (
@@ -134,7 +138,7 @@ function Cart({ cart, setCart }) {
       </div>
 
       <div className="cart-bottom">
-        <p className="cartp2">Thank you for shopping with us!</p>
+        <p className="cartp2">Thank you for shopping with us ❤︎</p>
       </div>
     </div>
   );

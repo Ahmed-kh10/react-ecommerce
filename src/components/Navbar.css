@@ -9,41 +9,51 @@ body {
 }
 
 .navbar {
-  background: rgba(17, 24, 39, 0.7);
-  color: white;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 60px;
+
+  padding: 18px 60px;
+
+  background: rgba(17, 24, 39, 0.8);
+
+  backdrop-filter: blur(12px);
+
   position: sticky;
   top: 0;
-  z-index: 1000;
+
+  z-index: 99999;
+}
+.navbar a {
+  text-decoration: none;
 }
 
 .logo {
   font-size: 28px;
   font-weight: bold;
+
+  color: white;
+
   cursor: pointer;
 }
 
 .nav-links {
-  list-style: none;
   display: flex;
   align-items: center;
   gap: 30px;
-}
 
-.nav-links li {
-  position: relative;
+  list-style: none;
 }
 
 .nav-links a {
   text-decoration: none;
+
   color: white;
-  font-size: 18px;
+
+  font-size: 17px;
+
   transition: 0.3s;
 }
 
@@ -51,80 +61,201 @@ body {
   color: #60a5fa;
 }
 
+/* SUBMENU */
+
+.dropdown {
+  position: relative;
+}
+
 .submenu {
   position: absolute;
   top: 35px;
   left: 0;
-  background-color: white;
+  z-index: 1000000000000;
   width: 220px;
-  border-radius: 10px;
-  list-style: none;
+
+  background: white;
+
+  border-radius: 12px;
+
   padding: 10px 0;
+
+  list-style: none;
+
   opacity: 0;
   visibility: hidden;
+
   transform: translateY(10px);
+
   transition: all 0.3s ease;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-.submenu li {
-  padding: 12px 20px;
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
-.submenu li a {
-  color: #111827;
-  font-size: 16px;
+/* SEARCH */
+
+.search-box {
+  position: relative;
+}
+.search-results {
+  position: absolute;
+  top: 55px;
+  right: 0;
+
+  width: 850px;
+
+  max-height: 55vh;
+  overflow-y: auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+
+  padding: 15px;
+
+  background: #111827;
+  border-radius: 12px;
+
+  z-index: 9999;
+}
+.search-box input {
+  width: 240px;
+
+  padding: 10px 15px 10px 42px;
+
+  border: none;
+
+  outline: none;
+
+  border-radius: 30px;
+
+  background: rgba(255, 255, 255, 0.12);
+
+  color: white;
+
+  font-size: 15px;
+
+  transition: 0.3s;
 }
 
-.submenu li:hover {
-  background-color: #f3f4f6;
+.search-box input::placeholder {
+  color: #ddd;
 }
-.dropdown {
-  transition: all 0.3s ease;
+
+.search-box input:focus {
+  background: rgba(255, 255, 255, 0.2);
 }
-.dropdown:hover .submenu {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-  z-index: 1000000;
+
+.search-icon {
+  position: absolute;
+
+  top: 50%;
+  left: 15px;
+
+  transform: translateY(-50%);
+
+  color: #ddd;
+
+  font-size: 14px;
 }
-@media (max-width: 768px) {
+
+/* CART */
+
+.cart-icon {
+  color: white;
+
+  font-size: 24px;
+
+  transition: 0.3s;
+}
+
+.cart-icon:hover {
+  color: #60a5fa;
+
+  transform: scale(1.1);
+}
+.search-item {
+  padding: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.search-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 992px) {
   .navbar {
-    padding: 20px;
-    flex-direction: column;
-    gap: 20px;
-  }
+    padding: 18px 25px;
 
-  .logo {
-    font-size: 24px;
+    flex-wrap: wrap;
+
+    gap: 20px;
   }
 
   .nav-links {
+    gap: 18px;
+  }
+
+  .search-box input {
+    width: 180px;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
     flex-direction: column;
-    gap: 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+
+    gap: 15px;
+  }
+
+  .nav-right {
     width: 100%;
-    text-align: center;
+
+    justify-content: space-between;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    font-size: 22px;
   }
 
   .nav-links a {
-    font-size: 17px;
+    font-size: 15px;
   }
 
-  .submenu {
-    position: static;
-    width: 100%;
-    margin-top: 10px;
-    opacity: 1;
-    visibility: visible;
-    display: none;
-    border-radius: 12px;
-  }
-
-  .dropdown:hover .submenu {
-    display: block;
-  }
-
-  .submenu li {
-    padding: 14px;
+  .cart-icon {
+    font-size: 20px;
   }
 }

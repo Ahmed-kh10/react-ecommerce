@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import ProductCard from './components/ProductCard';
 
-function Electronics({ addToCart }) {
+function Electronics({ addToCart, addToWishlist }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -16,7 +16,12 @@ function Electronics({ addToCart }) {
   return (
     <div className="products">
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} addToCart={addToCart} />
+        <ProductCard
+          key={product.id}
+          product={product}
+          addToCart={addToCart}
+          addToWishlist={addToWishlist}
+        />
       ))}
     </div>
   );

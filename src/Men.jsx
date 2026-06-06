@@ -209,7 +209,7 @@ import { useEffect, useState } from 'react';
 
 import ProductCard from './components/ProductCard';
 
-function Men({ addToCart }) {
+function Men({ addToCart, addToWishlist }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -228,6 +228,7 @@ function Men({ addToCart }) {
             key={product.id}
             product={product}
             addToCart={addToCart}
+            addToWishlist={addToWishlist}
           />
         );
       })}

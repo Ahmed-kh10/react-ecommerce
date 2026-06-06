@@ -81,6 +81,18 @@
   animation-delay: -7s;
 }
 
+.btn-register {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #2563eb;
+  color: white;
+  font-weight: bold;
+}
+
 @keyframes drift {
   from {
     transform: translate(0, 0) scale(1);

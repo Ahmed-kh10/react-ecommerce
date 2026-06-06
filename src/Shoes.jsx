@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 import './ProductPage.css';
 
 const API_URL = 'https://dummyjson.com/products/category/mens-shoes';
 
-function ProductCard({ product, addToCart }) {
+function ProductCard({ product, addToCart, addToWishlist }) {
   const [added, setAdded] = useState(false);
+  const [wishlisted, setWishlisted] = useState(false);
 
   function handleAdd() {
     toast.success('Added To Cart ✅', {
@@ -14,6 +16,7 @@ function ProductCard({ product, addToCart }) {
       autoClose: 3000,
       theme: 'dark',
     });
+
     addToCart(product);
 
     setAdded(true);
@@ -23,16 +26,42 @@ function ProductCard({ product, addToCart }) {
     }, 1000);
   }
 
+  function handleWishlist() {
+    if (!wishlisted) {
+      addToWishlist(product);
+
+      toast.success('Added To Wishlist ❤️', {
+        position: 'top-right',
+        autoClose: 3000,
+        theme: 'dark',
+      });
+
+      setWishlisted(true);
+    } else {
+      toast.info('Already In Wishlist ❤️', {
+        position: 'top-right',
+        autoClose: 3000,
+        theme: 'dark',
+      });
+    }
+  }
+
   return (
     <div className="s-card">
+      <button className="cardWishlist" onClick={handleWishlist}>
+        {wishlisted ? '♥' : '♡'}
+      </button>
+
       <div className="s-card__img">
-        <img
-          src={
-            product.thumbnail ||
-            (Array.isArray(product.images) ? product.images[0] : '')
-          }
-          alt={product.title}
-        />
+        <Link to={`/product/${product.id}`}>
+          <img
+            src={
+              product.thumbnail ||
+              (Array.isArray(product.images) ? product.images[0] : '')
+            }
+            alt={product.title}
+          />
+        </Link>
       </div>
 
       <div className="s-card__body">
@@ -54,13 +83,8 @@ function ProductCard({ product, addToCart }) {
   );
 }
 
-/* =========================
-   MAIN COMPONENT
-========================= */
-
-function Shoes({ addToCart }) {
+function Shoes({ addToCart, addToWishlist }) {
   const [products, setProducts] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
   async function fetchProducts() {
@@ -78,6 +102,7 @@ function Shoes({ addToCart }) {
   }
 
   useEffect(() => {
+    // call the async fetch inside an async IIFE to avoid calling setState synchronously in the effect
     (async () => {
       await fetchProducts();
     })();
@@ -87,7 +112,6 @@ function Shoes({ addToCart }) {
     <div className="shoes-page">
       <div className="shoes-header">
         <h1>Men Shoes Collection 👟</h1>
-
         <p>Modern sneakers & premium footwear</p>
       </div>
 
@@ -100,6 +124,7 @@ function Shoes({ addToCart }) {
               key={product.id}
               product={product}
               addToCart={addToCart}
+              addToWishlist={addToWishlist}
             />
           ))
         )}
@@ -107,4 +132,5 @@ function Shoes({ addToCart }) {
     </div>
   );
 }
+
 export default Shoes;

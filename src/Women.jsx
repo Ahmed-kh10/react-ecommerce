@@ -185,7 +185,7 @@ import { useEffect, useState } from 'react';
 
 import ProductCard from './components/ProductCard';
 
-function Women({ addToCart }) {
+function Women({ addToCart, addToWishlist = { addToWishlist } }) {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -199,7 +199,12 @@ function Women({ addToCart }) {
   return (
     <div className="products">
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} addToCart={addToCart} />
+        <ProductCard
+          key={product.id}
+          product={product}
+          addToCart={addToCart}
+          addToWishlist={addToWishlist}
+        />
       ))}
     </div>
   );

@@ -28,6 +28,24 @@ const categories = [
     desc: 'Step up your game — sneakers, heels, loafers and more.',
     accent: 'cat-shoes',
   },
+  {
+    id: 4,
+    label: 'Electronics',
+    tag: 'Top Tech',
+    emoji: '💻',
+    count: '200+ Items',
+    desc: 'Discover the latest gadgets, laptops, phones and smart devices.',
+    accent: 'cat-electronics',
+  },
+  {
+    id: 5,
+    label: 'Jewelery',
+    tag: 'Luxury Picks',
+    emoji: '💎',
+    count: '80+ Items',
+    desc: 'Elegant rings, necklaces, bracelets and timeless accessories.',
+    accent: 'cat-jewelery',
+  },
 ];
 
 const stats = [
@@ -114,9 +132,11 @@ function About() {
               {/* Footer */}
               <div className="cat-footer">
                 <span className="cat-count">{cat.count}</span>
-                <button className="cat-btn" type="button">
-                  Shop Now <span className="arrow">→</span>
-                </button>
+                <a href="/categories" style={{ textDecoration: 'none' }}>
+                  <button className="cat-btn" type="button">
+                    Shop Now <span className="arrow">→</span>
+                  </button>
+                </a>
               </div>
 
               {/* Decorative number */}
