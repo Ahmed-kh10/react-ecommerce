@@ -7,29 +7,33 @@ function ProductCard({ product, addToCart, addToWishlist }) {
   const [added, setAdded] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
 
+  // Normalize image — DummyJSON uses thumbnail/images[], FakeStore uses image
+  const image =
+    product.thumbnail ||
+    product.image ||
+    (Array.isArray(product.images) ? product.images[0] : '');
+
+  // Normalize rating — DummyJSON: number, FakeStore: { rate, count }
+  const rating =
+    typeof product.rating === 'number'
+      ? product.rating
+      : (product.rating?.rate ?? '—');
+
   function handleAdd() {
+    addToCart(product);
+    setAdded(true);
     toast.success('Added To Cart ✅', {
       position: 'top-right',
       autoClose: 3000,
       theme: 'dark',
     });
-
-    addToCart(product);
-
-    setAdded(true);
-
-    setTimeout(() => {
-      setAdded(false);
-    }, 1000);
+    setTimeout(() => setAdded(false), 1000);
   }
 
   function handleWishlist() {
-    addToWishlist(product);
-
-    setWishlisted(true);
     if (!wishlisted) {
       addToWishlist(product);
-
+      setWishlisted(true);
       toast.success('Added To Wishlist ❤️', {
         position: 'top-right',
         autoClose: 3000,
@@ -42,28 +46,21 @@ function ProductCard({ product, addToCart, addToWishlist }) {
         theme: 'dark',
       });
     }
-
-    setWishlisted(true);
   }
 
   return (
     <div className="card">
-      <button className="cardWishlist" onClick={handleWishlist}>
+      <button
+        className="cardWishlist"
+        onClick={handleWishlist}
+        aria-label="Add to wishlist"
+      >
         {wishlisted ? '♥' : '♡'}
       </button>
 
-      <div className="s-card__img">
-        <Link to={`/product/${product.id}`}>
-          <img
-            src={
-              product.image ||
-              product.thumbnail ||
-              (Array.isArray(product.images) ? product.images[0] : '')
-            }
-            alt={product.title}
-          />
-        </Link>
-      </div>
+      <Link to={`/product/${product.id}`}>
+        <img src={image} alt={product.title} />
+      </Link>
 
       <h3>{product.title}</h3>
 
@@ -71,13 +68,7 @@ function ProductCard({ product, addToCart, addToWishlist }) {
 
       <div className="info">
         <span className="price">${product.price}</span>
-
-        <span className="rate">
-          ⭐{' '}
-          {typeof product.rating === 'object'
-            ? product.rating.rate
-            : product.rating}
-        </span>
+        <span className="rate">⭐ {rating}</span>
       </div>
 
       <button className={`btn ${added ? 'added' : ''}`} onClick={handleAdd}>
@@ -86,4 +77,5 @@ function ProductCard({ product, addToCart, addToWishlist }) {
     </div>
   );
 }
+
 export default ProductCard;

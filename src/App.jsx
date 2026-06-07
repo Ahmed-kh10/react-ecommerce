@@ -20,36 +20,24 @@ import ProductDetails from './ProductDetails';
 
 import './components/Navbar.css';
 import './components/ProductCard.css';
-import './ProductPage.css';
 import './Cart.css';
 import './Categories.css';
 import './Wishlist.css';
 
 function App() {
   const [cart, setCart] = useState(() => {
-    const savedCart = localStorage.getItem('cart');
-
-    return savedCart ? JSON.parse(savedCart) : [];
+    const saved = localStorage.getItem('cart');
+    return saved ? JSON.parse(saved) : [];
   });
-
-  useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(cart));
-  }, [cart]);
 
   const [wishlist, setWishlist] = useState(() => {
     const saved = localStorage.getItem('wishlist');
     return saved ? JSON.parse(saved) : [];
   });
 
-  function addToWishlist(product) {
-    setWishlist((prev) => {
-      const exists = prev.find((item) => item.id === product.id);
-
-      if (exists) return prev;
-
-      return [...prev, product];
-    });
-  }
+  useEffect(() => {
+    localStorage.setItem('cart', JSON.stringify(cart));
+  }, [cart]);
 
   useEffect(() => {
     localStorage.setItem('wishlist', JSON.stringify(wishlist));
@@ -61,34 +49,30 @@ function App() {
 
       if (exists) {
         return prev.map((item) =>
-          item.id === product.id
-            ? {
-                ...item,
-                qty: item.qty + 1,
-              }
-            : item,
+          item.id === product.id ? { ...item, qty: item.qty + 1 } : item,
         );
       }
 
-      return [
-        ...prev,
-        {
-          ...product,
+      // Normalize image once when adding to cart
+      const image =
+        product.thumbnail ||
+        product.image ||
+        (Array.isArray(product.images) ? product.images[0] : '');
 
-          image:
-            product.image ||
-            (Array.isArray(product.images) ? product.images[0] : ''),
+      return [...prev, { ...product, image, qty: 1 }];
+    });
+  }
 
-          qty: 1,
-        },
-      ];
+  function addToWishlist(product) {
+    setWishlist((prev) => {
+      const exists = prev.find((item) => item.id === product.id);
+      return exists ? prev : [...prev, product];
     });
   }
 
   return (
     <BrowserRouter>
       <Navbar />
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/categories" element={<Categories />} />
@@ -136,4 +120,5 @@ function App() {
     </BrowserRouter>
   );
 }
+
 export default App;

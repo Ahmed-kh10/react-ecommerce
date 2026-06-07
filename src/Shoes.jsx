@@ -1,42 +1,43 @@
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
-
 import './ProductPage.css';
 
-const API_URL = 'https://dummyjson.com/products/category/mens-shoes';
-
-function ProductCard({ product, addToCart, addToWishlist }) {
+function ShoeCard({ product, addToCart, addToWishlist }) {
   const [added, setAdded] = useState(false);
   const [wishlisted, setWishlisted] = useState(false);
 
+  const image =
+    product.thumbnail ||
+    (Array.isArray(product.images) && product.images.length > 0
+      ? product.images[0]
+      : '');
+
+  const rating =
+    typeof product.rating === 'number'
+      ? product.rating
+      : (product.rating?.rate ?? '—');
+
   function handleAdd() {
+    addToCart(product);
+    setAdded(true);
     toast.success('Added To Cart ✅', {
       position: 'top-right',
       autoClose: 3000,
       theme: 'dark',
     });
-
-    addToCart(product);
-
-    setAdded(true);
-
-    setTimeout(() => {
-      setAdded(false);
-    }, 1000);
+    setTimeout(() => setAdded(false), 1000);
   }
 
   function handleWishlist() {
     if (!wishlisted) {
       addToWishlist(product);
-
+      setWishlisted(true);
       toast.success('Added To Wishlist ❤️', {
         position: 'top-right',
         autoClose: 3000,
         theme: 'dark',
       });
-
-      setWishlisted(true);
     } else {
       toast.info('Already In Wishlist ❤️', {
         position: 'top-right',
@@ -48,31 +49,27 @@ function ProductCard({ product, addToCart, addToWishlist }) {
 
   return (
     <div className="s-card">
-      <button className="cardWishlist" onClick={handleWishlist}>
+      <button
+        className="cardWishlist"
+        onClick={handleWishlist}
+        aria-label="Add to wishlist"
+      >
         {wishlisted ? '♥' : '♡'}
       </button>
 
       <div className="s-card__img">
         <Link to={`/product/${product.id}`}>
-          <img
-            src={
-              product.thumbnail ||
-              (Array.isArray(product.images) ? product.images[0] : '')
-            }
-            alt={product.title}
-          />
+          <img src={image} alt={product.title} />
         </Link>
       </div>
 
       <div className="s-card__body">
         <h3>{product.title}</h3>
-
         <p className="s-desc">{product.description}</p>
 
         <div className="s-info">
           <span className="s-price">${product.price}</span>
-
-          <span className="s-rate">⭐ {product.rating}</span>
+          <span className="s-rate">⭐ {rating}</span>
         </div>
 
         <button className={`s-btn ${added ? 'added' : ''}`} onClick={handleAdd}>
@@ -87,25 +84,12 @@ function Shoes({ addToCart, addToWishlist }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  async function fetchProducts() {
-    try {
-      const res = await fetch(API_URL);
-
-      const data = await res.json();
-
-      setProducts(data.products || []);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    // call the async fetch inside an async IIFE to avoid calling setState synchronously in the effect
-    (async () => {
-      await fetchProducts();
-    })();
+    fetch('https://dummyjson.com/products/category/mens-shoes?limit=20')
+      .then((res) => res.json())
+      .then((data) => setProducts(data.products || []))
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -120,7 +104,7 @@ function Shoes({ addToCart, addToWishlist }) {
           <h2 className="loading">Loading...</h2>
         ) : (
           products.map((product) => (
-            <ProductCard
+            <ShoeCard
               key={product.id}
               product={product}
               addToCart={addToCart}
